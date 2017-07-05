@@ -1,4 +1,4 @@
-FROM mariadb:10.1
+FROM mariadb:10.3
 
 RUN set -e -x \
     && apt-get update \
