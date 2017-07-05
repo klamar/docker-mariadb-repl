@@ -1,0 +1,37 @@
+version: '2'
+services:
+  db1:
+    container_name: repl
+    image: mariadb-repl:2
+    network_mode: host
+    build:
+      context: .
+    environment:
+    - MYSQL_ROOT_PASSWORD=kassler
+    - MYSQL_DATABASE=kassler
+    - MYSQL_PORT=33061
+    - MYSQL_JOIN_PORT=33062
+    - MYSQL_JOIN_HOST=127.0.0.1
+    volumes:
+    - .:/data/repl
+    - ./config/my.cnf:/etc/mysql/my.cnf
+    - ./data/mysql:/var/lib/mysql
+    entrypoint: /data/repl/start.sh
+
+  db2:
+    container_name: repl2
+    image: mariadb-repl:2
+    network_mode: host
+    build:
+      context: .
+    environment:
+    - MYSQL_ROOT_PASSWORD=kassler
+    - MYSQL_DATABASE=kassler
+    - MYSQL_PORT=33062
+    - MYSQL_JOIN_PORT=33061
+    - MYSQL_JOIN_HOST=127.0.0.1
+    volumes:
+    - .:/data/repl
+    - ./config/my2.cnf:/etc/mysql/my.cnf
+    - ./data/mysql2:/var/lib/mysql
+    entrypoint: /data/repl/start.sh
